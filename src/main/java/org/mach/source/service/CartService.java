@@ -48,6 +48,15 @@ public class CartService {
                 .execute().thenApply(ApiHttpResponse::getBody).thenApply(e -> e.getResults().stream().findFirst());
     }
 
+    public CompletableFuture<Optional<Cart>> getCartForUser(String id) throws JsonProcessingException {
+
+        return byProjectKeyRequestBuilder.carts()
+                .get()
+                .withWhere("customerId = \"" + id + "\"" + "and cartState = \"" + CartState.CartStateEnum.ACTIVE + "\"")
+                .withLimit(1)
+                .execute().thenApply(ApiHttpResponse::getBody).thenApply(e -> e.getResults().stream().findFirst());
+    }
+
     public CompletableFuture<Cart> setPayment(Cart cart, Payment payment) {
         final CartAddPaymentAction cartUpdateAction = CartAddPaymentActionBuilder.of()
                 .payment(PaymentResourceIdentifierBuilder.of()
@@ -62,6 +71,23 @@ public class CartService {
         return byProjectKeyRequestBuilder.carts()
                 .withId(cart.getId())
                 .post(cartUpdate)
+                .execute().thenApply(ApiHttpResponse::getBody);
+    }
+
+    public CompletableFuture<Cart> addItemToCustomerCart(ItemToCart itemToCart, String customerid) {
+        LineItemDraft lineItemDraft = LineItemDraftBuilder.of()
+                .sku(itemToCart.getSku())
+                .quantity(itemToCart.getQuantity())
+                .build();
+        CartDraft cartDraft = CartDraftBuilder.of()
+                .lineItems(lineItemDraft)
+                .currency("INR")
+                .country("IN")
+                .customerId(customerid)
+                .build();
+
+        return byProjectKeyRequestBuilder.carts()
+                .post(cartDraft)
                 .execute().thenApply(ApiHttpResponse::getBody);
     }
 }

@@ -23,14 +23,28 @@ public class PaymentController {
     @Autowired
     private CartService cartService;
 
-    @PostMapping("/cod")
-    public CompletableFuture<?> startCODpayment(@RequestParam String anonymousId) throws JsonProcessingException {
+    @PostMapping("/codAnon")
+    public CompletableFuture<?> startCODpaymentAnon(@RequestParam String anonymousId) throws JsonProcessingException {
 
         //final PaymentMethod cod = PaymentMethod.CASHONDELIVERY;
         CompletableFuture<Optional<Cart>> cartForAnonUser = cartService.getCartForAnonUser(anonymousId);
         return cartForAnonUser.thenApply(c -> {
             if (c.isPresent()) {
                 return paymentService.addPayment("COD",anonymousId, c.get().getTaxedPrice().getTotalGross(), UUID.randomUUID().toString())
+                        .thenCompose(payment -> cartService.setPayment(c.get(), payment));
+            }
+            return CompletableFuture.completedFuture(null);
+        }).thenCompose(e -> e);
+    }
+
+    @PostMapping("/cod")
+    public CompletableFuture<?> startCODpayment(@RequestParam String customerid) throws JsonProcessingException {
+
+        //final PaymentMethod cod = PaymentMethod.CASHONDELIVERY;
+        CompletableFuture<Optional<Cart>> cartForUser = cartService.getCartForUser(customerid);
+        return cartForUser.thenApply(c -> {
+            if (c.isPresent()) {
+                return paymentService.addPayment("COD",customerid, c.get().getTaxedPrice().getTotalGross(), UUID.randomUUID().toString())
                         .thenCompose(payment -> cartService.setPayment(c.get(), payment));
             }
             return CompletableFuture.completedFuture(null);

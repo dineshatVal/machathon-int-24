@@ -29,4 +29,15 @@ public class OrdersController {
             return CompletableFuture.completedFuture(null);
         });
     }
+
+    @PostMapping("/placeorder")
+    public CompletableFuture<CompletableFuture<?>> makeOrder(@RequestParam String customerid) throws JsonProcessingException {
+        CompletableFuture<Optional<Cart>> cartForUser = cartService.getCartForUser(customerid);
+        return cartForUser.thenApply(c -> {
+            if (c.isPresent()) {
+                return orderService.placeorder(c.get());
+            }
+            return CompletableFuture.completedFuture(null);
+        });
+    }
 }

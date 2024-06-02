@@ -21,9 +21,21 @@ public class ShippingAddressController {
     @Autowired
     private CartService cartService;
 
-    @PostMapping("/addAddress")
-    public CompletableFuture<?> addShippingAddress(@RequestParam String anonymousId, @RequestBody CustomerAddress address) throws JsonProcessingException {
+    @PostMapping("/addAddressAnon")
+    public CompletableFuture<?> addShippingAddressAnon(@RequestParam String anonymousId, @RequestBody CustomerAddress address) throws JsonProcessingException {
         CompletableFuture<Optional<Cart>> cartForAnonUser = cartService.getCartForAnonUser(anonymousId);
+
+        return cartForAnonUser.thenApply(c -> {
+            if (c.isPresent()) {
+                return shippingAddressService.setShippingAddress(c.get(), address);
+            }
+            return CompletableFuture.completedFuture(null);
+        }).thenCompose(e -> e);
+    }
+
+    @PostMapping("/addAddress")
+    public CompletableFuture<?> addShippingAddress(@RequestParam String customerid, @RequestBody CustomerAddress address) throws JsonProcessingException {
+        CompletableFuture<Optional<Cart>> cartForAnonUser = cartService.getCartForUser(customerid);
 
         return cartForAnonUser.thenApply(c -> {
             if (c.isPresent()) {
