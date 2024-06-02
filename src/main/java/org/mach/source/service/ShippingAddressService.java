@@ -1,9 +1,9 @@
-package com.example.ctdemo.service;
+package org.mach.source.service;
 
 import com.commercetools.api.client.ByProjectKeyRequestBuilder;
 import com.commercetools.api.models.cart.*;
 import com.commercetools.api.models.common.AddressBuilder;
-import com.example.ctdemo.model.customer.CustomerAddress;
+import org.mach.source.model.customer.CustomerAddress;
 import io.vrap.rmf.base.client.ApiHttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

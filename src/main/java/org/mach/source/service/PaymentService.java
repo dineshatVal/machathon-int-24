@@ -1,4 +1,4 @@
-package com.example.ctdemo.service;
+package org.mach.source.service;
 
 import com.commercetools.api.client.ByProjectKeyRequestBuilder;
 import com.commercetools.api.models.common.MoneyBuilder;

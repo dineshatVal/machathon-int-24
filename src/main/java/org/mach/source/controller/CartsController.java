@@ -1,13 +1,12 @@
-package com.example.ctdemo.controller;
+package org.mach.source.controller;
 
 import com.commercetools.api.models.cart.Cart;
-import com.example.ctdemo.model.cart.ItemToCart;
-import com.example.ctdemo.service.CartService;
+import org.mach.source.model.cart.ItemToCart;
+import org.mach.source.service.CartService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 @RestController

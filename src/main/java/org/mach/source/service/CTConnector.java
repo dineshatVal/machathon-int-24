@@ -1,9 +1,9 @@
-package com.example.ctdemo.service;
+package org.mach.source.service;
 
 import com.commercetools.api.client.ApiRoot;
 import com.commercetools.api.client.ByProjectKeyRequestBuilder;
 import com.commercetools.api.defaultconfig.ApiRootBuilder;
-import com.example.ctdemo.config.CTConfiguration;
+import org.mach.source.config.CTConfiguration;
 import io.vrap.rmf.base.client.oauth2.ClientCredentialsBuilder;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;

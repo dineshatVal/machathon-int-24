@@ -1,4 +1,4 @@
-package com.example.ctdemo.model.customer;
+package org.mach.source.model.customer;
 
 public class CustomerAddress {
     private String floor;

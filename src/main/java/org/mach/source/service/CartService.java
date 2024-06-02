@@ -1,10 +1,10 @@
-package com.example.ctdemo.service;
+package org.mach.source.service;
 
 import com.commercetools.api.client.ByProjectKeyRequestBuilder;
 import com.commercetools.api.models.cart.*;
 import com.commercetools.api.models.payment.Payment;
 import com.commercetools.api.models.payment.PaymentResourceIdentifierBuilder;
-import com.example.ctdemo.model.cart.ItemToCart;
+import org.mach.source.model.cart.ItemToCart;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.vrap.rmf.base.client.ApiHttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,14 +1,10 @@
-package com.example.ctdemo.controller;
+package org.mach.source.controller;
 
 import com.commercetools.api.models.cart.Cart;
-import com.commercetools.api.models.order.Order;
-import com.commercetools.api.models.payment.Payment;
-import com.example.ctdemo.service.CartService;
-import com.example.ctdemo.service.PaymentService;
-import com.example.ctdemo.service.ShippingAddressService;
+import org.mach.source.service.CartService;
+import org.mach.source.service.PaymentService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;

@@ -1,4 +1,4 @@
-package com.example.ctdemo.model.cart;
+package org.mach.source.model.cart;
 
 public class ItemToCart {
     private String sku;

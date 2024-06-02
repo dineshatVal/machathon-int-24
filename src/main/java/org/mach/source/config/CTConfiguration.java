@@ -1,4 +1,4 @@
-package com.example.ctdemo.config;
+package org.mach.source.config;
 
 import com.commercetools.api.defaultconfig.ServiceRegion;
 import org.apache.commons.lang3.StringUtils;
