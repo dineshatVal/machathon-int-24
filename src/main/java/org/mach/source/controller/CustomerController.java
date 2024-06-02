@@ -17,13 +17,18 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
-    @PostMapping("/addCustomer")
-    public CompletableFuture<CustomerSignInResult> addCustomer(@RequestParam String customerType, @RequestBody CustomerDTO customerDTO) {
+    @PostMapping("/signUpCustomer")
+    public CompletableFuture<CustomerSignInResult> addCustomer(@RequestParam String customerType, @RequestBody CustomerDTO customerDTO) throws ExecutionException, InterruptedException {
         return customerService.addCustomer(customerType, customerDTO);
     }
 
     @PostMapping("/addToCommunity")
     public CompletableFuture<String> addToCommunity(@RequestParam String community, @RequestParam String customerid) throws ExecutionException, InterruptedException {
         return customerService.addToCommunity(community, customerid);
+    }
+
+    @PostMapping("/signInCustomer")
+    public CompletableFuture<CustomerSignInResult> signInCustomer(@RequestBody CustomerDTO customerDTO) throws ExecutionException, InterruptedException {
+        return customerService.getCustomer(customerDTO);
     }
 }

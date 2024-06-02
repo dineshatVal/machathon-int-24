@@ -21,17 +21,30 @@ public class CustomerService {
     @Autowired
     private UtilityService utilityService;
 
-    public CompletableFuture<CustomerSignInResult> addCustomer(String customerType, CustomerDTO customerDTO){
+    public CompletableFuture<CustomerSignInResult> addCustomer(String customerType, CustomerDTO customerDTO) throws ExecutionException, InterruptedException {
+
+       /* CustomFieldsBuilder community = CustomFieldsBuilder.of()
+                .type(TypeReferenceBuilder.of().id("6bddce2f-a21d-4f6e-93bb-181f16ad3488").build())
+                .fields(FieldContainerBuilder.of().addValue("community", customerDTO.getCommunity()).build());*/
+        CustomFieldsDraft customFieldsDraft = null;
+                List<String> customerObjectValues = utilityService.getCustomerObjectValues();
+        if(customerObjectValues.contains(customerDTO.getCommunity())){
+            customFieldsDraft = CustomFieldsDraftBuilder.of()
+                    .type(TypeResourceIdentifierBuilder.of().key("type-customer").build())
+                    .fields(FieldContainerBuilder.of().addValue("community", customerDTO.getCommunity()).build())
+                    .build();
+        }
 
         CustomerDraft customerDraft = CustomerDraftBuilder.of()
                 //.customerGroup(CustomerGroupResourceIdentifierBuilder.of().key("cust-normal").build())
                 .firstName(customerDTO.getFirstName())
                 .lastName(customerDTO.getLastName())
                 .email(customerDTO.getEmail())
-                .password("password@2024")
+                .password(customerDTO.getPassword())
+                .custom(customFieldsDraft)
                 .build();
         if(customerType.equalsIgnoreCase("leader")){
-            customerDraft.setCustomerGroup(CustomerGroupResourceIdentifierBuilder.of().key("cust-normal").build());
+            customerDraft.setCustomerGroup(CustomerGroupResourceIdentifierBuilder.of().key("cust-leader").build());
         } else {
             customerDraft.setCustomerGroup(CustomerGroupResourceIdentifierBuilder.of().key("cust-normal").build());
         }
@@ -85,5 +98,16 @@ public class CustomerService {
         }
         return CompletableFuture.completedFuture(community +" is not a valid community available in Joggerhub. Available communities are "+ communities);
 
+    }
+
+    public CompletableFuture<CustomerSignInResult> getCustomer(CustomerDTO customerDTO) {
+        CustomerSignin customerSignin = CustomerSigninBuilder.of()
+                .email(customerDTO.getEmail())
+                .password(customerDTO.getPassword())
+                .build();
+
+        return byProjectKeyRequestBuilder.login()
+                .post(customerSignin)
+                .execute().thenApply(ApiHttpResponse::getBody);
     }
 }
