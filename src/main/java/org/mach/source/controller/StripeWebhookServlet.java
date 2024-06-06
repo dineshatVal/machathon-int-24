@@ -18,7 +18,7 @@ import java.io.IOException;
 public class StripeWebhookServlet extends HttpServlet {
 
     // Set your webhook secret here
-    private static final String WEBHOOK_SECRET = "whsec_xhIfnIkj5LAoWPpsrVIpoTQ6WwjFK0S3";
+    private static final String WEBHOOK_SECRET = "";
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
