@@ -26,7 +26,7 @@ public class UtilityService {
 
     private CompletableFuture<Object> getCustomObjects() {
         CompletableFuture<CustomObjectPagedQueryResponse> customObjectPagedQueryResponseCF = byProjectKeyRequestBuilder.customObjects()
-                .get().execute().thenApply(ApiHttpResponse::getBody);
+                .withContainer("community-container").get().execute().thenApply(ApiHttpResponse::getBody);
 
         return customObjectPagedQueryResponseCF.thenApply(f -> f.getResults().get(0).getValue());
     }

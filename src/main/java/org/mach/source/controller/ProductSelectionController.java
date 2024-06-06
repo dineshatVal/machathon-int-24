@@ -16,8 +16,7 @@ import java.util.concurrent.ExecutionException;
 @RestController
 @RequestMapping("/productselection")
 public class ProductSelectionController {
-    @Autowired
-    private CartService cartService;
+
     @Autowired
     private ProductSelectionService productSelectionService;
 

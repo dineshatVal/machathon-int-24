@@ -8,6 +8,7 @@ import org.mach.source.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -30,5 +31,20 @@ public class CustomerController {
     @PostMapping("/signInCustomer")
     public CompletableFuture<CustomerSignInResult> signInCustomer(@RequestBody CustomerDTO customerDTO) throws ExecutionException, InterruptedException {
         return customerService.getCustomer(customerDTO);
+    }
+
+    @GetMapping("/getCommunity")
+    public CompletableFuture<String> getCommunity(@RequestParam String customerid) throws ExecutionException, InterruptedException {
+        return customerService.getCommunity(customerid);
+    }
+
+    @PostMapping("/updateRecords")
+    public CompletableFuture<String> updateRecords(@RequestParam String customerid, @RequestParam String date, @RequestParam int record) throws ExecutionException, InterruptedException {
+        return customerService.updateRecords(customerid, date, record);
+    }
+
+    @GetMapping("/getRecords")
+    public CompletableFuture<List<String>> getRecords(@RequestParam String customerid) throws ExecutionException, InterruptedException {
+        return customerService.getRecords(customerid);
     }
 }
