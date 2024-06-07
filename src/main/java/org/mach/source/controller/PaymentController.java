@@ -1,14 +1,13 @@
 package org.mach.source.controller;
 
 import com.commercetools.api.models.cart.Cart;
+import com.commercetools.api.models.payment.Payment;
+import org.mach.source.model.stripe.PaymentModelRoot;
 import org.mach.source.service.CartService;
 import org.mach.source.service.PaymentService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -49,6 +48,18 @@ public class PaymentController {
             }
             return CompletableFuture.completedFuture(null);
         }).thenCompose(e -> e);
+    }
+
+    @PostMapping("/stripe")
+    public CompletableFuture<Payment> startStripePayment(@RequestBody PaymentModelRoot paymentModel) throws JsonProcessingException {
+        System.out.println("***********************************************");
+        System.out.println("Testing stripeeeeeeeee");
+        System.out.println("###############################################");
+        //CompletableFuture<Optional<Cart>> cartForUser = cartService.getCartForUserUsingPayment(customerid);
+
+        CompletableFuture<Payment> paymentCF = paymentService.captureStripePayment(paymentModel);
+        return paymentCF;
+
     }
 
 }
