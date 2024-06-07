@@ -29,11 +29,11 @@ public class PaymentController {
         CompletableFuture<Optional<Cart>> cartForAnonUser = cartService.getCartForAnonUser(anonymousId);
         return cartForAnonUser.thenApply(c -> {
             if (c.isPresent()) {
-                return paymentService.addPayment("COD",anonymousId, c.get().getTaxedPrice().getTotalGross(), UUID.randomUUID().toString())
-                        .thenCompose(payment -> cartService.setPayment(c.get(), payment));
+                return paymentService.addPayment("COD", anonymousId, c.get().getTaxedPrice().getTotalGross(), UUID.randomUUID().toString());
+                //   .thenCompose(payment -> cartService.setPayment(c.get(), payment));
             }
             return CompletableFuture.completedFuture(null);
-        }).thenCompose(e -> e);
+        }).thenCompose(m -> m);
     }
 
     @PostMapping("/cod")
@@ -43,8 +43,8 @@ public class PaymentController {
         CompletableFuture<Optional<Cart>> cartForUser = cartService.getCartForUser(customerid);
         return cartForUser.thenApply(c -> {
             if (c.isPresent()) {
-                return paymentService.addPayment("COD",customerid, c.get().getTaxedPrice().getTotalGross(), UUID.randomUUID().toString())
-                        .thenCompose(payment -> cartService.setPayment(c.get(), payment));
+                return paymentService.addPayment("COD",customerid, c.get().getTaxedPrice().getTotalGross(), UUID.randomUUID().toString());
+                    //    .thenCompose(payment -> cartService.setPayment(c.get(), payment));
             }
             return CompletableFuture.completedFuture(null);
         }).thenCompose(e -> e);
